@@ -15,8 +15,8 @@ root.title("Pomodoro")
 if (platform == "linux"):
     icon = PhotoImage(file = "icon.png")
     root.iconphoto(False, icon)
-else:
-    root.iconbitmap("icon.ico")
+elif (platform[:3] == "win"):
+    root.iconbitmap("icon.ico")  #I haven't taken into consideration MacOS
 
 #Setting the screen's resolution
 root.geometry("400x400")
