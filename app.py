@@ -26,38 +26,56 @@ root.geometry("400x400")
 #Disabling screen resizing by the user
 root.resizable(0, 0)
 
-freeze = False
-
+#Buttons logic
 def start_command():
+    global freeze
+    if freeze == False:
+        global minute
+        global second
+        
+        if second == 0:
+            if minute != 0:
+                minute -= 1
+                second = 59
+            else:
+                playsound("alarm.mp3")
+                return None
+        else:
+            second -= 1
+
+        timer.config(text = "%02d"%minute + ":" + "%02d"%second)
+        start.config(state = DISABLED)
+        timer.after(1000, start_command)
+
+def restart_command():
+    global freeze
     global minute
     global second
-
-    if second == 0:
-        if minute != 0:
-            minute -= 1
-            second = 59
-        else:
-            start.config(state = ACTIVE)
-            playsound("alarm.mp3")
-            return None
-    else:
-        second -= 1
-
+    freeze = True
+    minute = 20
+    second = 0
+    start.config(state = ACTIVE)
     timer.config(text = "%02d"%minute + ":" + "%02d"%second)
-    start.config(state = DISABLED)
-    timer.after(1, start_command)
-
-
-
 
 minute = 20
 second = 0
-font_style = tkFont.Font(family="Lucida Grande", size=50)
-timer = Label(root, text = "%02d"%minute + ":" + "%02d"%second, font = font_style)
-start = Button(root, text = "Start", command = start_command)
+freeze = False
 
+#Font used for timer
+font_style = tkFont.Font(family="Lucida Grande", size=50)
+
+#Labels
+timer = Label(root, text = "%02d"%minute + ":" + "%02d"%second, font = font_style)
+
+#Buttons
+start = Button(root, text = "Start", command = start_command)
+restart = Button(root, text = "Restart", command = restart_command)
+
+
+#Displaying elements
 timer.pack(pady = 50)
 start.pack()
+restart.pack(pady = 30)
 
 
 root.mainloop()
