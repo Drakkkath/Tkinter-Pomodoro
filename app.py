@@ -1,6 +1,3 @@
-#pylint: disable=W0614
-#The comment above disables unused imports warnings of pylint
-
 from sys import platform
 import tkinter as tk
 from tkinter import *
